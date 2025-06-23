@@ -33,4 +33,6 @@ Além das tags obrigatórias, o desafio também sugeriu a experimentação com a
 * `<del>` (para texto riscado/deletado)
 * `<abbr>` (para abreviações)
 
+# Desafio 2: Criar uma página da Wikipedia com Layout Moderno - DIO
+
 
