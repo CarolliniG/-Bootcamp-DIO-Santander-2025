@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recriação Moderna - Wikipédia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS para cores e espaçamento */
+        :root {
+            --color-primary: #007bff; /* Azul para links e destaques */
+            --color-text: #333; /* Cor principal do texto */
+            --color-text-light: #666; /* Cor secundária do texto */
+            --color-background-light: #f8f9fa; /* Fundo claro para seções */
+            --color-border: #e0e0e0; /* Cor da borda */
+            --color-accent: #28a745; /* Cor de destaque (ex: sucesso) */
+            --color-hover: #0056b3; /* Cor de hover para links */
+
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+
+            --font-family-primary: 'Inter', sans-serif;
+            --font-size-base: 16px;
+            --line-height-base: 1.6;
+        }
+
+        /* Reset básico e estilos globais */
+        body {
+            font-family: var(--font-family-primary);
+            line-height: var(--line-height-base);
+            color: var(--color-text);
+            margin: 0;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--color-hover);
+            text-decoration: underline;
+        }
+
+        /* Layout Principal */
+        .page-wrapper {
+            display: grid;
+            grid-template-columns: 250px 1fr; /* Coluna da sidebar e coluna do conteúdo */
+            grid-template-rows: auto 1fr auto; /* Cabeçalho, Conteúdo, Rodapé */
+            grid-template-areas:
+                "header header"
+                "sidebar main"
+                "footer footer";
+            flex-grow: 1; /* Permite que o grid ocupe o espaço disponível */
+        }
+
+        /* Cabeçalho Principal */
+        .main-header {
+            grid-area: header;
+            background-color: #fff;
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--spacing-md) var(--spacing-xl);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px; /* Limita a largura do conteúdo do header */
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: var(--spacing-lg);
+            filter: grayscale(100%); /* Exemplo de estilo: logo em cinza */
+        }
+        .logo img:hover {
+            filter: grayscale(0%); /* Ao passar o mouse, a cor volta */
+        }
+
+        .search-bar {
+            display: flex;
+            flex-grow: 1;
+            max-width: 500px;
+            background-color: var(--color-background-light);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-base);
+            outline: none;
+            background: transparent;
+        }
+
+        .search-bar button {
+            background-color: var(--color-primary);
+            color: #fff;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            font-size: var(--font-size-base);
+            transition: background-color 0.2s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--color-hover);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            grid-area: sidebar;
+            background-color: var(--color-background-light);
+            padding: var(--spacing-xl) var(--spacing-md);
+            border-right: 1px solid var(--color-border);
+            position: sticky;
+            top: 0; /* Ajuste para fixed positioning se necessário */
+            height: calc(100vh - 72px); /* Altura da viewport menos a altura do header */
+            overflow-y: auto; /* Permite scroll se o conteúdo for muito grande */
+            padding-top: calc(72px + var(--spacing-xl)); /* Ajuste para não cobrir o header */
+        }
+
+        .main-nav ul, .language-selector ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .main-nav li, .language-selector li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .main-nav a, .language-selector a {
+            display: block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            color: var(--color-text);
+            font-weight: 400;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .main-nav a:hover, .language-selector a:hover {
+            background-color: rgba(0,0,0,0.05);
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .language-selector h3 {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            grid-area: main;
+            padding: var(--spacing-xl);
+            background-color: #fff;
+            overflow-x: hidden; /* Evita scroll horizontal indesejado */
+        }
+
+        .article-container {
+            max-width: 800px; /* Largura máxima para o conteúdo do artigo */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+
+        .article-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+            color: #222;
+            line-height: 1.2;
+        }
+
+        .article-subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .article-meta {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: var(--spacing-md);
+        }
+
+        .table-of-contents {
+            background-color: var(--color-background-light);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            font-size: 0.95rem;
+        }
+
+        .table-of-contents h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-primary);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .table-of-contents ul ul {
+            padding-left: var(--spacing-md);
+        }
+
+        .table-of-contents li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .table-of-contents a {
+            color: var(--color-text);
+            display: block;
+            padding: var(--spacing-xs);
+            border-radius: 4px;
+        }
+
+        .table-of-contents a:hover {
+            background-color: rgba(0,0,0,0.03);
+            text-decoration: none;
+        }
+
+        /* Conteúdo do Artigo */
+        section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        section h2 {
+            font-size: 2rem;
+            color: #222;
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        section h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            line-height: var(--line-height-base);
+        }
+
+        figure {
+            margin: var(--spacing-xl) 0;
+            background-color: var(--color-background-light);
+            padding: var(--spacing-md);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        figure img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto var(--spacing-sm) auto;
+            border-radius: 4px;
+        }
+
+        figcaption {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            line-height: 1.4;
+        }
+
+        .infobox {
+            background-color: #f0f8ff; /* Um azul mais suave para infobox */
+            border: 1px solid #cceeff;
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-xl) 0;
+            float: right; /* Para flutuar à direita do texto */
+            width: 300px; /* Largura da infobox */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .infobox h3 {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid #cceeff;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .infobox ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .infobox li {
+            margin-bottom: var(--spacing-xs);
+            line-height: 1.4;
+        }
+
+        /* Rodapé do Artigo e da Página */
+        .article-footer-meta {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .main-footer {
+            grid-area: footer;
+            background-color: #333;
+            color: #f8f9fa;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            text-align: center;
+        }
+
+        .main-footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-nav ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav li {
+            margin: 0 var(--spacing-md) var(--spacing-sm) var(--spacing-md);
+        }
+
+        .footer-nav a {
+            color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+
+        .footer-nav a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        .main-footer p {
+            font-size: 0.8rem;
+            color: #bbb;
+            margin-top: var(--spacing-md);
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .page-wrapper {
+                grid-template-columns: 1fr; /* Sidebar ocupa a largura total em telas menores */
+                grid-template-areas:
+                    "header"
+                    "sidebar"
+                    "main"
+                    "footer";
+            }
+
+            .sidebar {
+                position: static; /* Remove fixed position for mobile */
+                height: auto; /* Permite que a altura se ajuste ao conteúdo */
+                border-right: none;
+                border-bottom: 1px solid var(--color-border);
+                padding: var(--spacing-md); /* Reduz o padding */
+                padding-top: var(--spacing-md); /* Ajusta padding para o topo */
+            }
+
+            .main-header {
+                padding: var(--spacing-md);
+            }
+
+            .article-container {
+                padding: var(--spacing-lg);
+            }
+
+            .infobox {
+                float: none;
+                width: auto;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 100%;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .logo img {
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .search-bar {
+                width: 100%;
+                margin-top: var(--spacing-sm);
+            }
+
+            .article-header h1 {
+                font-size: 2rem;
+            }
+            .article-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .article-container {
+                padding: var(--spacing-md);
+            }
+
+            .table-of-contents, .infobox {
+                padding: var(--spacing-sm);
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            section h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="main-header">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTcgMThIMTdWMTYuMjVDMTcgMTQuNDI1NSAxNS44Nzk0IDEyLjkzMDkgMTQuMjUwMSAxMi4zNTU3QzEyLjc2MTUgMTEuNzkyOCAxMS41OTU1IDEwLjA5MTggMTEuNTk1NSA4LjE5MDJDMTEuNTk1NSA3LjIzMDk5IDEyLjAzNTYgNi40MTkzNyAxMi40NTA2IDUuODUzMzRDMTIuODg0MiA1LjI5MTkzIDEzLjQ5NjIgNC45Mjk2OSAxNC4xMzk2IDQuOTI5NjlIMTQuNEMxNS42OTY5IDQuOTI5NjkgMTYgNC41OTAzMiAxNiA0QzE2IDMuNDA5NjggMTUuNjk2OSAzLjA3MDMxIDE0LjQgMy4wNzAzMUgxMy43MDkxQzExLjU5OTggMy4wNzAzMSAxMC40MjE2IDMuODI2NzYgOS4zMjE1MiA0LjE0MDkzQzguMjk0MDIgNC41NTI0IDcuMDcwMTYgNC44NzUxNyA2Ljc5NDYzIDUuMzg2MjFDNi40NjE3IDUuODY2NDYgNS45ODAxMyA2LjE2MDExIDUuNTYwNjcgNi4zNjQ2NEM1LjIzOTc5IDYuNTY0ODkgNC42OTc3IDYuNzAwNzggNC4xMzE4OCA2LjczMzQ3QzMuODQ4MjcgNi43NDc2IDMuNjI4OSA2Ljc1NzU2IDMuNDgxMzcgNi43NjU5M0MzLjAzMDM0IDYuNzc0MzIgMi42ODAxNiA2Ljc3ODk0IDIuMzg3MDMgNi43ODMxMkMyLjA0MDE1IDYuNzgzMzggMS43MDQzOSA2Ljc4MjgyIDEuMzc5ODQgNi43ODA0M0MxLjE5NjYxIDYuNzc5MjkgMS4wNTg3MiA2Ljc3ODI4IDAuOTg2ODczIDYuNzc3MDZDMi4xMTUzMSA4LjIzMDUzIDMuMjk2MDcgOC43NTY5IDQuMzgxNTUgOC43NTY5QzQuOTU5NjggOC43NTY5IDUuNzM2OTIgOC43MzMxNyA2LjM4ODU5IDguNjgzOTVDNi42NDQ4NiA4LjY3MTYzIDYuOTYwNDkgOC42NDc4IDcuMjg3MzggOC42MjA4NEM3Ljg3NTgzIDguNTcxNDggOC40NDQ0MiA4LjUwMTE5IDguOTQ0MzggOC40MzQ4QzkuNDM4NzkgOC4zNjk3NCAxMC42NzI2IDguMTM3NzUgMTAuNjc4NCA4LjEzNzc1QzEwLjY5MTEgOC4yNzQ1MyAxMC43Njk3IDguNjIzNzUgMTAuOTU5OSA5LjAxNDk0QzExLjAwOTkgOS4xNjEwNyAxMS4wNzgxIDkuNDk3NTUgMTEuMDc5NyA5LjgwNzM5QzExLjA3OTcgMTAuMzU2MiAxMC43OTU1IDEwLjk0NDggMTAuNjUxOSAxMS4zMzg0QzEwLjU4NTggMTEuNTY1MyAxMC40MDM4IDExLjc1ODggMTAuMjQwOCAxMS44MjUxQzkuNTU0OTcgMTIuMDk5OSA4LjUyNDU3IDEyLjU0NzkgNy42NzU4MiAxMi44NDIyQzYuNzUwNzUgMTMuMTk4NCA1LjUxNTg3IDEzLjQ5MzIgNC45MTA2MiAxMy40OTMyQzQuMjkxODMgMTMuNDkzMiAzLjY0MzY1IDEzLjQ1NDUgMi45MzI0OCAxMy4zNjQ4QzIuODQzMDQgMTMuMzU3MiAyLjY3MTczIDEzLjM0NTEgMi40ODMxMiAxMy4zMjc4QzIuMTU3OTEgMTMuMjkwOSAxLjg2MDk3IDEzLjI1NjIgMS41ODgwNSAxMy4yMjUxQzEuNDk3MzcgMTMuMjE2MSAxLjQxMDIyIDEzLjIxMDkgMS4zMzQxMSAxMy4yMDY4QzAuOTMxMzM1IDEzLjE4NjEgMC41NzQ3NzcgMTMuMTY2NyAwLjMxNDEzNSAxMy4xNTI4QzAuMjY4NjgzIDEzLjE1MDUgMC4xMzc0MzUgMTMuMTQ0OCAwLjA1ODQ4NDUgMTMuMTQxNEMtMC4wMjc5NTUzIDEzLjE0NTQgLTAuMTAzOTIyIDEzLjE0ODIgLTAuMTY4NDQyIDEzLjE1MDdDMi4xMjM5MSAxNC4yNTgzIDMuODU0MzMgMTQuOTI5NyA0LjkxMDYyIDE0LjkyOTdDNy4xMDEyMiAxNC45Mjk3IDcuNzk4MSAxNC40OTQyIDkuMDc5MzIgMTMuNzQ1MUMxMC4zNzU2IDEyLjk4NCAxMS42ODMzIDEyLjA3MDMgMTIuNTY1MSAxMi4wNzAzQzEzLjI2OTIgMTIuMDcwMyAxMy41MDM5IDEyLjM5MTMgMTMuNTAzOSAxMi43MzM2QzEzLjUwMzkgMTMuMDY2MiAxMy40MDk1IDEzLjQ4ODcgMTMuMzE0NyAxMy43NzM2QzEyLjk4NTcgMTQuNjAzOSAxMi4wMDQ0IDE1LjE2NDYgMTEuMDcxNSAxNS41Mjk3QzEwLjEwMzMgMTUuODc5OSAxMC42MzE4IDE1Ljk0MTIgMTAuNjMxOCAxNi40QzEwLjYzMTggMTYuODYwNiAxMC4xMDE4IDE3LjQ1NTMgOS42NTI4MSAxNy43NzM1QzkuNDIzNjYgMTcuOTM0NyA5LjE5MjA5IDE4LjA4NDcgOS4wODQ5MiAxOC4xMTc2QzguOTAwNTMgMTguMTM5NyA4LjgxOTE3IDE4LjE4NTggOC42ODIyIDE4LjIyMjRDMi42MzgyNSAxOS4yMDE1IDIuMDcyNTMgMjAuNjYzMSAxLjQ5Mzk3IDIyLjg1MjJDMS4zMjQ0MyAyMy40Nzk0IDEuMzAzMzYgMjQuMDQzNSAxLjMwMzM2IDI0LjU3MzRDMS4zMDMzNiAyNC44Mjg1IDEuNDc4OTcgMjQuOTk4NSAxLjcwNjY2IDI0Ljk5ODVDMS44MjA2OSAyNC45OTg1IDEuOTMxNDUgMjQuOTg0MSAyLjA3MjY1IDI0Ljk2OTRDMi41NTgwNyAyNC45MTk3IDMuMDE2NTcgMjQuNzkyMiAzLjUzMzIyIDI0LjYzMzdDNC4wOTM4NSAyNC40NTk0IDUuMTUyMjYgMjQuMDk5OCA2LjEzOTY1IDIzLjg1MDlDNy4yNTQ5MyAyMy40NTUyIDcuOTgxOCAyMi41NjQ3IDguMjc1NjEgMjIuMzQxOUM5LjA2OTY2IDIxLjgwODggOS41NDY4NyAyMS41NzYyIDEwLjE1MjkgMjEuNTc2MkMxMC4zNjg2IDIxLjU3NjIgMTAuODU3MSAyMS42ODE2IDExLjQyNzUgMjEuOTIxNEMxMi4xMDM0IDIyLjE3MzYgMTIuMzg3OCAyMi41NDY0IDEyLjM4NzggMjMuMjI5NEMxMi4zODc4IDIzLjUyNjkgMTIuMzM3MiAyMy43MTM3IDEyLjI2ODggMjMuODkzMUMxMi4yMDEgMjQuMDc4NyAxMi4xMTU1IDI0LjI0NjMgMTIuMDMzNSAyNC40MDczQzExLjU5MDUgMjQuOTAxMiAxMS4yMjU4IDI1LjAwMjkgMTEuMjI1OCAyNS41OTkxQzExLjIyNTggMjYuMTI4MiAxMS40MjQ4IDI2LjUyNTYgMTEuNzA0MyAyNi43MzE1QzEyLjA1MiAyNi45OTk1IDEyLjUyNjUgMjcuMDk0MiAxMi44NTU1IDI2Ljk5NzNDMTMuMTgzNSAyNi45MDkzIDEzLjY3MTkgMjYuNjY0NiAxNC4wNDQ2IDI2LjM0MTJDMTQuNDQ2NiAyNi4wMDM1IDE1LjAwMjIgMjUuNTQxNSAxNS4zMjY3IDI1LjIzODlDMTYuMjQ3OCAyNC4zNDkzIDE2LjY0MDkgMjQuMDE4NiAxNi45NzQ3IDIzLjM2MzlDMTcuMjkxMiAyMi42Mzc2IDE3LjYxMzcgMjEuNDkwNSAxNy42MTM3IDIwLjIyOTlDMTcuNjEzNyAxOS4wOTI5IDE3LjM4NjYgMTguMzg4MiAxNi44MzQ1IDE4LjEzMThDMTYuNTcwNyAxNy45NTk0IDE2LjEwODYgMTcuNzY1NyAxNS44OTU5IDE3LjY3NDVDMTUuMzY5NyAxNy40NTEgMTQuODA3IDE3LjI1MzYgMTQuMjQ3NiAxNy4xMDk5QzEzLjUyOTQgMTYuOTQ2IDEyLjczNTMgMTYuODIwMSAxMi4xMDQxIDE2LjgwNTJDMTIuMDY2NiAxNi44MDA2IDEyLjAyNTcgMTYuNzg1OCAxMS45ODA1IDE2Ljc1ODdDMTEuODMxMSAxNi43MjQ1IDExLjczOTEgMTYuNjk1NiAxMS42NzM4IDE2LjY3NDdDMTEuNTg3MyAxNi42NDk1IDExLjUxMjcgMTYuNjM1MyAxMS40NDc4IDE2LjYyNzVDMTEuMjU5OSAxNi42MDQ2IDExLjAyMDYgMTYuNTgxMiAxMC43MTQ2IDE2LjUzOTZDMTAuNDg3MSAxNi41MDU3IDEwLjI2NjIgMTYuNDY3MSAxMC4wODgzIDE2LjQ0NTJDOS44MjA2MiAxNi40MTIzIDkuNTg3NzggMTYuMzcyOCA5LjM3ODQyIDE2LjM0NzVDOS4wNTQxMiAxNi4zMDY5IDguNzMyNTMgMTYuMjY4NSA4LjQwODc0IDE2LjIzNzdDNy45NzI1IDE2LjA5MDkgNy41OTMxIDE2LjA0MjQgNy4yMjQ1NiAxNi4wMjk0QzcuMDQzMzEgMTYuMDIzMiA2Ljg4ODk2IDE2LjAxOTIgNi42OTI0IDE2LjAxODJDNi42NjU3NyAxNi4wMTg4IDYuNjQwNjYgMTYuMDE5NCA2LjYxODEzIDE2LjAxOTdDMi42MzE0MiAxNi4xNDY5IDIgMTcuMjcyNiAyIDE4VjE4WiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+" alt="Wikipédia Logo">
+                </a>
+                <div class="search-bar">
+                    <input type="search" placeholder="Pesquisar na Wikipédia">
+                    <button type="submit">🔍</button>
+                </div>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#">Página principal</a></li>
+                    <li><a href="#">Conteúdo destacado</a></li>
+                    <li><a href="#">Eventos atuais</a></li>
+                    <li><a href="#">Artigo aleatório</a></li>
+                    <li><a href="#">Portais</a></li>
+                    <li><a href="#">Esplanada</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                </ul>
+            </nav>
+            <div class="language-selector">
+                <h3>Outras línguas</h3>
+                <ul>
+                    <li><a href="#">English</a></li>
+                    <li><a href="#">Español</a></li>
+                    <li><a href="#">Français</a></li>
+                    <li><a href="#">Deutsch</a></li>
+                    <li><a href="#">Italiano</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="article-container">
+                <article>
+                    <header class="article-header">
+                        <h1>Monte Everest</h1>
+                        <p class="article-subtitle">A montanha mais alta da Terra, medida a partir do nível do mar.</p>
+                        <div class="article-meta">
+                            <span>Última edição: 22 de Junho de 2025</span>
+                            <a href="#">Histórico</a> | <a href="#">Discussão</a> | <a href="#">Ler em outro idioma</a>
+                        </div>
+                    </header>
+
+                    <nav class="table-of-contents">
+                        <h2>Conteúdo</h2>
+                        <ul>
+                            <li><a href="#geografia">1 Geografia</a></li>
+                            <li><a href="#historia">2 História das Expedições</a>
+                                <ul>
+                                    <li><a href="#primeiras-tentativas">2.1 Primeiras tentativas</a></li>
+                                    <li><a href="#primeira-conquista">2.2 Primeira conquista</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#clima-fauna">3 Clima e Fauna</a></li>
+                            <li><a href="#turismo">4 Turismo e Poluição</a></li>
+                            <li><a href="#curiosidades">5 Curiosidades</a></li>
+                            <li><a href="#ver-tambem">6 Ver também</a></li>
+                            <li><a href="#referencias">7 Referências</a></li>
+                        </ul>
+                    </nav>
+
+                    <section id="geografia">
+                        <h2>Geografia</h2>
+                        <p>O **Monte Everest** (em nepalês: सगरमाथा, <i>Sagarmāthā</i>; em tibetano: ཇོ་མོ་གླང་མ, <i>Chomolungma</i>) é a montanha mais alta do mundo, com 8 848,86 metros (29 031,7 pés) acima do nível do mar. Está localizado na subcordilheira Mahalangur Himal do Himalaia, na fronteira entre o Nepal e a China (Tibete). É o pico mais alto do Himalaia e, como tal, faz parte do grupo dos 'Oito Mil', as quatorze montanhas que ultrapassam os 8 000 metros de altitude.</p>
+                        <figure>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Mount_Everest_from_Kala_Patthar_in_March_2020.jpg/640px-Mount_Everest_from_Kala_Patthar_in_March_2020.jpg" alt="Vista do Monte Everest de Kala Patthar">
+                            <figcaption>Vista imponente do Monte Everest ao amanhecer, com a neve refletindo a luz.</figcaption>
+                        </figure>
+                        <p>O Everest atrai muitos alpinistas, incluindo montanhistas experientes, bem como aqueles com pouca experiência que pagam guias de montanha profissionais para levar a cabo escaladas bem-sucedidas. Existem duas principais rotas de escalada, uma que se aproxima do cume a partir do sudeste, no Nepal (a "rota padrão"), e a outra do norte, no Tibete. Embora não imponha desafios técnicos significativos de escalada nas rotas padrão, o Everest apresenta perigos como mal da montanha, condições meteorológicas e ventos, bem como perigos substanciais de avalanches e da queda de gelo.</p>
+                    </section>
+
+                    <aside class="infobox">
+                        <h3>Informações do Monte Everest</h3>
+                        <ul>
+                            <li>**Elevação:** 8 848,86 m (29 031,7 pés)</li>
+                            <li>**Proeminência:** 4 602 m (15 098 pés)</li>
+                            <li>**Coordenadas:** 27° 59′ 17″ N 86° 55′ 31″ E</li>
+                            <li>**Localização:** Mahalangur Himal, Himalaia, fronteira Nepal / China</li>
+                            <li>**Primeira ascensão:** 29 de maio de 1953</li>
+                            <li>**Ascensionistas:** Edmund Hillary, Tenzing Norgay</li>
+                        </ul>
+                    </aside>
+
+                    <section id="historia">
+                        <h2>História das Expedições</h2>
+                        <section id="primeiras-tentativas">
+                            <h3>Primeiras tentativas</h3>
+                            <p>As primeiras expedições ao Everest datam do início do século XX. O governo nepalês não permitia a entrada de estrangeiros no país na época, então as primeiras tentativas foram feitas do lado tibetano. As expedições iniciais, como a de 1922 e 1924 (com George Mallory e Andrew Irvine), foram notáveis pelas dificuldades extremas e pelas perdas de vidas. Mallory e Irvine desapareceram durante a tentativa de cume em 1924, e o corpo de Mallory só foi encontrado em 1999.</p>
+                            <p>A persistência e o espírito explorador levaram a várias outras expedições nas décadas seguintes, muitas delas usando técnicas inovadoras e equipamentos aprimorados para lidar com o clima e a altitude extremos.</p>
+                        </section>
+                        <section id="primeira-conquista">
+                            <h3>Primeira conquista</h3>
+                            <p>A primeira ascensão confirmada ao cume do Everest ocorreu em 29 de maio de 1953, por **Edmund Hillary** da Nova Zelândia e **Tenzing Norgay** do Nepal (um sherpa). Eles faziam parte de uma expedição britânica liderada por John Hunt. O sucesso deles foi um marco na história do alpinismo e da exploração humana, gerando um enorme interesse global pela montanha.</p>
+                            <p>Após a conquista de Hillary e Tenzing, o Everest se tornou um destino cobiçado para montanhistas de todo o mundo, levando a um aumento significativo nas expedições e no desenvolvimento de rotas e tecnologias de escalada.</p>
+                        </section>
+                    </section>
+
+                    <section id="clima-fauna">
+                        <h2>Clima e Fauna</h2>
+                        <p>O clima no Monte Everest é extremamente severo. As temperaturas no cume podem cair para -60 °C (-76 °F) e os ventos podem atingir mais de 285 km/h (177 mph). A pressão barométrica no topo é cerca de um terço da pressão ao nível do mar, o que significa que há muito menos oxigênio disponível para a respiração.</p>
+                        <p>Apesar das condições inóspitas, algumas formas de vida podem ser encontradas nas altitudes mais baixas da montanha, incluindo musgos, líquens e algumas espécies de pássaros e insetos que se adaptaram ao ambiente. Mamíferos como o iaque e o leopardo da neve são encontrados nas regiões mais baixas do Himalaia.</p>
+                    </section>
+
+                    <section id="turismo">
+                        <h2>Turismo e Poluição</h2>
+                        <p>O Monte Everest tornou-se um destino turístico popular, com milhares de trekkers visitando o Campo Base do Everest anualmente. No entanto, o aumento do turismo e das expedições de escalada levou a sérios problemas de **poluição**, com lixo (incluindo garrafas de oxigênio usadas, equipamentos de escalada e resíduos humanos) acumulando-se nas rotas de escalada.</p>
+                        <p>Esforços estão sendo feitos por governos e organizações ambientais para limpar a montanha e promover práticas de escalada mais sustentáveis, mas o desafio permanece enorme devido à dificuldade de remover lixo de altitudes tão elevadas.</p>
+                    </section>
+
+                    <section id="curiosidades">
+                        <h2>Curiosidades</h2>
+                        <ul>
+                            <li>O nome tibetano "Chomolungma" significa "Mãe do Universo".</li>
+                            <li>O nome nepalês "Sagarmāthā" significa "Testa do Céu".</li>
+                            <li>A altura do Everest é oficialmente medida por cientistas, e a medição mais recente foi em 2020.</li>
+                            <li>Mais de 5.000 pessoas já escalaram o Everest.</li>
+                            <li>O cume do Everest é tão alto que fica na "zona da morte", onde os níveis de oxigênio são insuficientes para sustentar a vida humana por longos períodos.</li>
+                        </ul>
+                    </section>
+
+                    <section id="ver-tambem">
+                        <h2>Ver também</h2>
+                        <ul>
+                            <li><a href="#">Sete Cumes</a></li>
+                            <li><a href="#">Himalaia</a></li>
+                            <li><a href="#">Alpinismo</a></li>
+                        </ul>
+                    </section>
+
+                    <section id="referencias">
+                        <h2>Referências</h2>
+                        <ol>
+                            <li><cite>Smith, J. (2020). *Mountain Climbing in the Himalayas*.</cite> Adventure Press.</li>
+                            <li><cite>National Geographic. (2022). *Everest: The Ultimate Challenge*.</cite> [Online].</li>
+                            <li><cite>Wikipedia. (2025). *Mount Everest*.</cite> [Online].</li>
+                        </ol>
+                    </section>
+
+                </article>
+
+                <div class="article-footer-meta">
+                    <p>Este texto é disponibilizado nos termos da licença <a href="#">Creative Commons Attribution-ShareAlike 4.0 International</a>.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="container">
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="#">Sobre a Wikipédia</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Desenvolvedores</a></li>
+                    </ul>
+                </nav>
+                <p>&copy; 2025 Fundação Wikimedia. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
